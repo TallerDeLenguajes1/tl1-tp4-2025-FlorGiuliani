@@ -19,6 +19,15 @@ Tnodo crearLista() {
     return NULL;
 }
 
+/*Tnodo insertar(Tnodo L, Tarea x) {
+    Tnodo nuevoNodo;
+    nuevoNodo = (struct Nodo *)malloc(sizeof(struct Nodo));
+    nuevoNodo->dato = x;
+    nuevoNodo->siguiente = L;
+    L = nuevoNodo;
+    return L;
+}*/
+
 void crearTarea(Tnodo * L, int cantidadTareas) { //doble puntero
     Tnodo nuevoNodo;
     nuevoNodo = (struct Nodo *)malloc(sizeof(struct Nodo));
@@ -47,11 +56,34 @@ void crearTarea(Tnodo * L, int cantidadTareas) { //doble puntero
 
 void mostrar(Tnodo L) {
     Tnodo aux = L;
-    while (aux) {
+    if (L == NULL) {
+        printf("\n--No hay tareas--");
+    } else {
+        while (aux) {
         printf("\nTarea %d: ", aux->T.TareaID);
         puts(aux->T.Descripcion);
-        printf("Duración: %d horas\n", aux->T.Duracion);
+        printf("Duracion: %d horas\n", aux->T.Duracion);
         aux = aux->siguiente;
+        }
+    }
+}
+
+void marcarComoRealizada(struct Nodo ** ListaPendientes, struct Nodo ** ListaRealizadas, int ID) {
+    Tnodo aux = *ListaPendientes;
+    Tnodo auxAnterior;
+
+    while (aux && aux->T.TareaID != ID) {
+        auxAnterior = aux;
+        aux = aux->siguiente;
+    }
+
+    if (aux != NULL) {
+        if (!auxAnterior) {
+            auxAnterior = *ListaPendientes;
+        }
+        auxAnterior->siguiente = aux->siguiente;
+        aux->siguiente = *ListaRealizadas;
+        *ListaRealizadas = aux;
     }
 }
 
