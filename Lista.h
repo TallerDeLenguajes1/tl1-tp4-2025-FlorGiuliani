@@ -4,10 +4,11 @@ typedef struct {
     int Duracion; // entre 10 – 100
 } Tarea;
 
-typedef Tarea item;
+//typedef Tarea item;
 
 struct Nodo {
-    item T;
+    //item T;
+    Tarea T;
     struct Nodo * siguiente;
 };
 
@@ -18,7 +19,7 @@ Tnodo crearLista() {
     return NULL;
 }
 
-Tnodo crearTarea(Tnodo L, int cantidadTareas) {
+void crearTarea(Tnodo * L, int cantidadTareas) { //doble puntero
     Tnodo nuevoNodo;
     nuevoNodo = (struct Nodo *)malloc(sizeof(struct Nodo));
     
@@ -34,16 +35,14 @@ Tnodo crearTarea(Tnodo L, int cantidadTareas) {
     strcpy(nuevoNodo->T.Descripcion,Buff);
     free(Buff);
 
-    {
+    do {
         printf("Ingrese la duracion de la tarea: ");
         scanf("%d", &duracion);
         nuevoNodo->T.Duracion = duracion;
     } while (nuevoNodo->T.Duracion < 10 || nuevoNodo->T.Duracion > 100);
 
-    nuevoNodo->siguiente = L;
-    L = nuevoNodo;
-
-    return L;
+    nuevoNodo->siguiente = *L;
+    *L = nuevoNodo;
 }
 
 void mostrar(Tnodo L) {
@@ -51,7 +50,7 @@ void mostrar(Tnodo L) {
     while (aux) {
         printf("\nTarea %d: ", aux->T.TareaID);
         puts(aux->T.Descripcion);
-        printf("\nDuración: %d horas\n", aux->T.Duracion);
+        printf("Duración: %d horas\n", aux->T.Duracion);
         aux = aux->siguiente;
     }
 }

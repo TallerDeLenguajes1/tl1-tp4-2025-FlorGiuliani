@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h> //para incluir el malloc
 #include <string.h> //para incluir strlen y strcpy
-#include "Lista.h"
+
 #define empleados 5;
+#include "Lista.h"
 
 int main ()
 {
@@ -14,8 +15,8 @@ int main ()
     int respuesta;
     int cantidad = 0;
 
-    {
-        printf("-----MENU-----");
+    do {
+        printf("\n\n-----MENU-----");
         printf("\n1. Ingresar una tarea");
         printf("\n2. Mostrar las tareas pendientes");
         printf("\n3. Mostrar las tareas realizadas");
@@ -28,7 +29,7 @@ int main ()
         switch (respuesta)
         {
         case 1:
-            TareasPendientes = crearTarea(TareasPendientes, cantidad);
+            crearTarea(&TareasPendientes, cantidad);
             cantidad++;
             break;
         
