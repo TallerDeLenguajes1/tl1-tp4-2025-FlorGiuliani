@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h> //para incluir el malloc
+#include <string.h> //para incluir strlen, strcpy y strstr
+#include <stdbool.h> 
+
 typedef struct {
     int TareaID; //Numérico autoincremental comenzando en 1000
     char *Descripcion;
