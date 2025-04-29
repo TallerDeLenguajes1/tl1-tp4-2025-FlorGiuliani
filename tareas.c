@@ -1,70 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h> //para incluir el malloc
-#include <string.h> //para incluir strlen y strcpy
+#include <string.h> //para incluir strlen, strcpy y strstr
+#include <stdbool.h> //para incluir un dato booleano
 
-#define empleados 5;
+//#define empleados 5;
 #include "Lista.h"
 
 int main ()
 {
-    Tnodo TareasPendientes;
-    Tnodo TareasRealizadas;
-    TareasPendientes = crearLista();
-    TareasRealizadas = crearLista();
-
-    int respuesta;
+    Nodo * TareasPendientes = crearLista();
+    Nodo * TareasRealizadas= crearLista();
+    int eleccion;
     int cantidadTareas = 0;
 
     do {
         printf("\n\n-----MENU-----");
         printf("\n1. Ingresar una tarea");
-        printf("\n2. Mostrar las tareas pendientes");
-        printf("\n3. Mostrar las tareas realizadas");
-        printf("\n4. Marcar una tarea como realizada");
+        printf("\n2. Marcar una tarea como realizada");
+        printf("\n3. Mostrar todas las tareas");
+        printf("\n4. Buscar tarea");
         printf("\n5. Salir");
 
-        printf("\n\nIngrese la opcion que desee: ");
-        scanf("%d", &respuesta);
+        printf("\n\nIngrese la operación que desee realizar: ");
+        scanf("%d", &eleccion);
         getchar();
 
-        switch (respuesta)
+        switch (eleccion)
         {
         case 1:
             do {
-            crearTarea(&TareasPendientes, cantidadTareas);
-            cantidadTareas++;
-            printf("\nDesea ingresar una nueva tarea? Si(1) No(2): ");
-            scanf("%d", &respuesta);
-            getchar();
-            } while (respuesta == 1);
+                ingresarTarea(&TareasPendientes, &cantidadTareas);
+            } while (preguntaParaRepetir("Desea ingresar una nueva tarea?"));
             break;
         
         case 2:
-            printf("\nLista de tareas PENDIENTES:");
-            mostrar(TareasPendientes);
+            do {
+                marcarComoRealizada(&TareasPendientes, &TareasRealizadas);
+            } while (preguntaParaRepetir("Desea marcar otra tarea como realizada?"));
             break;
 
         case 3:
-            printf("\nLista de tareas REALIZADAS:");
-            mostrar(TareasRealizadas);
+            mostrarTodasLasTareas(TareasPendientes,TareasRealizadas);
             break;
 
         case 4:
             do {
-                printf("Ingrese el ID de la tarea que desea marcar como REALIZADA: ");
-                scanf("%d", &respuesta);
-                getchar();
-                marcarComoRealizada(&TareasPendientes, &TareasRealizadas, respuesta);
-
-                printf("\nDesea marcar otra tarea como realizada? Si(1) No(2): ");
-                scanf("%d", &respuesta);
-                getchar();
-            } while (respuesta == 1);
+                buscarTarea(TareasPendientes, TareasRealizadas);
+            } while (preguntaParaRepetir("Desea buscar otra tarea?"));
             break;
 
         default:
             break;
         }
-    } while (respuesta != 5);
+    } while (eleccion != 5);
+
+    liberarMemoria(TareasPendientes);
+    liberarMemoria(TareasRealizadas);
     return 0;
 }
